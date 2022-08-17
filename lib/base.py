@@ -1,16 +1,48 @@
+from logging import _STYLES
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 
+STYLES = {
+        '0': 'Solarize_Light2',
+        '1': '_classic_test_patch',
+        '2': '_mpl-gallery',
+        '3': '_mpl-gallery-nogrid',
+        '4': 'bmh',
+        '5': 'classic',
+        '6': 'dark_background',
+        '7': 'fast',
+        '8': 'fivethirtyeight',
+        '9': 'ggplot',
+        '10': 'grayscale',
+        '11': 'seaborn',
+        '12': 'seaborn-bright',
+        '13': 'seaborn-colorblind',
+        '14': 'seaborn-dark',
+        '15': 'seaborn-dark-palette',
+        '16': 'seaborn-darkgrid',
+        '17': 'seaborn-deep',
+        '18': 'seaborn-muted',
+        '19': 'seaborn-notebook',
+        '20': 'seaborn-paper',
+        '21': 'seaborn-pastel',
+        '22': 'seaborn-poster',
+        '23': 'seaborn-talk',
+        '24': 'seaborn-ticks',
+        '25': 'seaborn-white',
+        '26': 'seaborn-whitegrid',
+        '27': 'tableau-colorblind10'
+    }
 
-def graficar(f, x_i, x_f, num=1000):
-    plt.style.use('seaborn')
+def graficar(f, x_i, x_f, num=1000, sty=5):
+    plt.style.use(STYLES[str(sty)])
     """
     Gráfica de funciones algebraicas
     :param f: función, previamente definida
     :param x_i: límite inferior del intervalo
     :param x_f: límite superior del intervalo
     :param num: división del intervalo
+    :param sty: key del estilo a usar
     :return: gráfica de la función
     """
     x = np.linspace(x_i, x_f, num)
@@ -18,10 +50,18 @@ def graficar(f, x_i, x_f, num=1000):
     ax.plot(x, f(x))
     xmin, xmax = ax.get_xlim()
     ymin, ymax = ax.get_ylim()
-    ax.annotate("", xy=(xmax, 0), xytext=(xmin, 0),
-                arrowprops=dict(color='gray', width=1.5, headwidth=8, headlength=10))
-    ax.annotate("", xy=(0, ymax), xytext=(0, ymin),
-                arrowprops=dict(color='gray', width=1.5, headwidth=8, headlength=10))
+    ax.annotate(
+        "",
+        xy=(xmax, 0),
+        xytext=(xmin, 0),
+        arrowprops=dict(color='gray', width=1.5, headwidth=8, headlength=10)
+    )
+    ax.annotate(
+        "",
+        xy=(0, ymax),
+        xytext=(0, ymin),
+        arrowprops=dict(color='gray', width=1.5, headwidth=8, headlength=10)
+    )
     plt.show()
     return None
 
@@ -42,7 +82,7 @@ def met_biseccion(f, a, b, tol=1e-4, n=50, verbose=True, print_error=False,
     :param deploy_error:
     :return: solución exacta o aproximada, si tiene.
     """
-    if not f(a) * f(b) < 0:
+    if not f(a) * f(b) <= 0:
         print(f'El intervalo no funciona: f({a})={f(a):.2f}, f({b})={f(b):.2f}')
         return None
     i = 1
